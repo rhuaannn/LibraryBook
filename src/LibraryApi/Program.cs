@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
+
 namespace LibraryApi
 {
     public class Program
@@ -8,9 +11,15 @@ namespace LibraryApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<DbContext>
+                (options => options.UseMySQL(connectionString));
+
+            builder.Services.AddScoped<DbContext>();
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -26,7 +35,6 @@ namespace LibraryApi
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
