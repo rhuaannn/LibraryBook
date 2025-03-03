@@ -1,6 +1,10 @@
 
+using LibraryApplication.Interfaces;
+using LibraryApplication.Services;
+using LibraryInfra.Connection;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
+using MyProject.Mappings;
+using Npgsql;
 
 namespace LibraryApi
 {
@@ -14,15 +18,16 @@ namespace LibraryApi
             builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<DbContext>
-                (options => options.UseMySQL(connectionString));
+            builder.Services.AddDbContext<DbConnection>
+                (options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("LibraryInfra")));
 
-            builder.Services.AddScoped<DbContext>();
+            builder.Services.AddScoped<IUserService, UseCaseUsers>();
+            builder.Services.AddScoped<IBookService, UseCaseBooks>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -33,7 +38,7 @@ namespace LibraryApi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors();
             app.UseAuthorization();
 
             app.MapControllers();
