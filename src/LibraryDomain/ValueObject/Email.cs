@@ -4,9 +4,9 @@ namespace LibraryDomain.ValueObject
 {
     public class Email
     {
-        public string Address { get;  set; }
+        public string Address { get; private set; }
 
-        public Email(string address)
+        public void SetEmail(string address)
         {
             if (!IsValid(address))
             {
@@ -15,6 +15,10 @@ namespace LibraryDomain.ValueObject
             Address = address;
         }
 
+        public Email(string address)
+        {
+            SetEmail(address);
+        }
         public Email() { }
 
         public static bool IsValid(string email)

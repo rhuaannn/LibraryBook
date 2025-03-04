@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace LibraryDomain.Entities;
 
@@ -19,6 +20,8 @@ public class Book
     public DateTime PublishedDate { get; private set; } = DateTime.Now;
 
     public Guid? UserId { get; private set; }
+
+    [JsonIgnore]
     public virtual User? User { get; private set; }
 
     public Book(string title, string author, string description, DateTime publishedDate)

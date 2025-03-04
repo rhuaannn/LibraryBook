@@ -4,7 +4,10 @@ using LibraryApplication.Services;
 using LibraryInfra.Connection;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Mappings;
+using Microsoft.AspNetCore.Http.Json;
 using Npgsql;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
 
 namespace LibraryApi
 {
@@ -23,7 +26,10 @@ namespace LibraryApi
 
             builder.Services.AddScoped<IUserService, UseCaseUsers>();
             builder.Services.AddScoped<IBookService, UseCaseBooks>();
-
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

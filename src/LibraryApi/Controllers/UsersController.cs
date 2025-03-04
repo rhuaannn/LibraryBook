@@ -33,19 +33,19 @@ namespace LibraryApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var user = _userService.GetAllUsersAsync();
+            var user =await _userService.GetAllUsersAsync();
             return Ok(user);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var user = _userService.GetUserByIdAsync(id);
+            var user =await _userService.GetUserByIdAsync(id);
             return Ok(user);
         }
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var deleted = _userService.DeleteUserAsync(id);
+            var deleted =await _userService.DeleteUserAsync(id);
             return Ok(deleted);
         }
     }

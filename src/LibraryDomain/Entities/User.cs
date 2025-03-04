@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using LibraryDomain.ValueObject;
 
 namespace LibraryDomain.Entities
@@ -16,7 +17,6 @@ namespace LibraryDomain.Entities
 
         [Required]
         public Email Email { get; set; }
-
         public virtual ICollection<Book> Books { get; set; } = new List<Book>();
         public User(string name, string password, string email)
         {

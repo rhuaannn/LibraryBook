@@ -8,7 +8,6 @@ namespace MyProject.Mappings
     {
         public MappingProfile()
         {
-            // Configuração de mapeamento do AutoMapper
             CreateMap<UserDto, User>()
                 .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books));
             CreateMap<BookDto, Book>();

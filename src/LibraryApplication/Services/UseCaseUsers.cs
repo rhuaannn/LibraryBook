@@ -16,11 +16,12 @@ namespace LibraryApplication.Services
 
         public async Task<User> CreateUserAsync(User user)
         {
-            if(await _context.Users.AnyAsync(u => u.Email == user.Email))
+            if(await _context.Users.AnyAsync(u => u.Email.Address == user.Email.Address))
             {
                 throw new Exception("Email already exists");
             }
 
+            
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
